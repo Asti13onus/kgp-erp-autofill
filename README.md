@@ -28,6 +28,8 @@ your PIN).
 It makes **no network requests** and has no dependencies or build step. The only
 host permission is `*://erp.iitkgp.ac.in/*`, plus `storage`.
 
+The toolbar icon uses the IIT Kharagpur emblem (taken from the institute's public website) purely so the extension is easy to spot. The emblem belongs to the institute and its use here does not imply any endorsement; if you publish or share this project, replace the icons in `icons/`.
+
 ## Install (unpacked)
 
 1. Open `chrome://extensions`.
