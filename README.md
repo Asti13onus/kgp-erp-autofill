@@ -65,7 +65,7 @@ least safe.
 
 **With a 4-digit PIN (encrypted).** Credentials are encrypted with AES-256-GCM using
 a key derived from your PIN with PBKDF2 (SHA-256, 600,000 iterations, random salt).
-You unlock once per browser session from the popup; the decrypted copy is then held
+You unlock once per browser session from the popup (click the icon and type the 4 digits: it unlocks, fills, and closes by itself); the decrypted copy is then held
 in `chrome.storage.session` (memory only, cleared when the browser closes or when
 you press **Lock now**) so autofill works across the ERP's page loads. The PIN is
 never stored.

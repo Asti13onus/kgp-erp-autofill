@@ -22,6 +22,9 @@
 
     $('unlockBox').hidden = !(record && record.encrypted && !unlocked);
     $('lockBtn').hidden = !unlocked;
+    const locked = !!(record && record.encrypted && !unlocked);
+    $('run').hidden = locked || !record;
+    if (locked) $('pin').focus();
 
     if (!record) setStatus('bad', 'Not configured');
     else if (!record.encrypted) setStatus('warn', 'Configured (plain text, unencrypted)');
@@ -60,9 +63,11 @@
 
   $('run').addEventListener('click', runAutofill);
 
-  $('unlockBtn').addEventListener('click', async () => {
+  let unlocking = false;
+  async function doUnlock() {
     const pin = $('pin').value;
-    if (!/^\d{4}$/.test(pin)) return setMsg('Enter your 4-digit PIN.', 'err');
+    if (unlocking || !/^\d{4}$/.test(pin)) return;
+    unlocking = true;
     $('unlockBtn').disabled = true;
     setMsg('Unlocking…');
     try {
@@ -72,14 +77,26 @@
       $('pin').value = '';
       await refresh();
       await runAutofill();
+      // One-tap flow: close the popup once the fill has been triggered.
+      setTimeout(() => window.close(), 900);
     } catch (e) {
       setMsg('Wrong PIN.', 'err');
+      $('pin').value = '';
+      $('pin').focus();
     } finally {
+      unlocking = false;
       $('unlockBtn').disabled = false;
     }
+  }
+
+  $('unlockBtn').addEventListener('click', doUnlock);
+  // Unlock automatically as soon as the 4th digit is typed.
+  $('pin').addEventListener('input', () => {
+    $('pin').value = $('pin').value.replace(/\D/g, '').slice(0, 4);
+    if ($('pin').value.length === 4) doUnlock();
   });
   $('pin').addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') $('unlockBtn').click();
+    if (e.key === 'Enter') doUnlock();
   });
 
   $('lockBtn').addEventListener('click', async () => {
