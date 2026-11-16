@@ -1,0 +1,23 @@
+# OS cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors / IDEs
+.vscode/
+.idea/
+*.swp
+*~
+
+# Tooling
+node_modules/
+npm-debug.log*
+
+# Packaged extension / signing keys
+*.crx
+*.zip
+*.pem
+
+# Local env / secrets — never commit credentials
+.env
+.env.*

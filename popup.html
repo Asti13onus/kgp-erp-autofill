@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>KGP ERP Autofill</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="popup">
+  <h1>KGP ERP Autofill</h1>
+
+  <div id="status" class="status"><span class="light"></span><span id="statusText">Checking…</span></div>
+
+  <div id="unlockBox" hidden>
+    <div class="row">
+      <input id="pin" type="password" inputmode="numeric" maxlength="4"
+             pattern="\d{4}" placeholder="PIN" autocomplete="off">
+      <button id="unlockBtn" type="button">Unlock</button>
+    </div>
+  </div>
+
+  <button id="run" type="button">Run autofill now</button>
+  <button id="lockBtn" type="button" class="secondary" hidden>Lock now</button>
+
+  <p id="msg" class="msg" role="status"></p>
+  <a id="options" href="#">Open settings</a>
+
+  <script src="shared.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

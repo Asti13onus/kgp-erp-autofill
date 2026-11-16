@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "KGP ERP Autofill",
+  "version": "1.0.0",
+  "description": "Unofficial helper that fills your own saved login details on the IIT Kharagpur ERP login page. Never fills the OTP and never submits forms.",
+  "permissions": ["storage"],
+  "host_permissions": ["*://erp.iitkgp.ac.in/*"],
+  "content_scripts": [
+    {
+      "matches": ["*://erp.iitkgp.ac.in/*"],
+      "js": ["shared.js", "content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_title": "KGP ERP Autofill",
+    "default_popup": "popup.html"
+  },
+  "options_page": "options.html"
+}

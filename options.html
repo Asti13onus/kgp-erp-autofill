@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>KGP ERP Autofill – Settings</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="page">
+  <h1>KGP ERP Autofill</h1>
+  <p class="muted">
+    Unofficial tool, not affiliated with IIT Kharagpur. Data stays on this device
+    (<code>chrome.storage.local</code>) and is only ever typed into
+    <code>erp.iitkgp.ac.in</code>.
+  </p>
+
+  <!-- Shown when saved data is PIN-encrypted and still locked -->
+  <section id="unlockBox" class="card" hidden>
+    <h2>Unlock to edit</h2>
+    <p class="muted">Your saved details are encrypted. Enter your 4-digit PIN to edit them.</p>
+    <div class="row">
+      <input id="unlockPin" type="password" inputmode="numeric" maxlength="4"
+             pattern="\d{4}" placeholder="PIN" autocomplete="off">
+      <button id="unlockBtn" type="button">Unlock</button>
+    </div>
+    <p id="unlockMsg" class="msg" role="status"></p>
+  </section>
+
+  <form id="editor" class="card" hidden autocomplete="off">
+    <h2>Login details</h2>
+    <label>Roll number
+      <input id="roll" type="text" autocomplete="off" spellcheck="false">
+    </label>
+    <label>Password
+      <input id="pw" type="password" autocomplete="new-password">
+    </label>
+
+    <h2>Security questions</h2>
+    <p class="muted">
+      Add each question exactly as the ERP shows it (small wording differences are
+      fine – matching is fuzzy). If the ERP asks something that doesn't confidently
+      match, nothing is filled.
+    </p>
+    <div id="qaList"></div>
+    <button id="addRow" type="button" class="secondary">+ Add question</button>
+
+    <label class="inline">
+      <input id="showSecrets" type="checkbox"> Show password and answers
+    </label>
+
+    <h2>PIN protection (optional)</h2>
+    <label>4-digit PIN
+      <input id="pin" type="password" inputmode="numeric" maxlength="4"
+             pattern="\d{4}" placeholder="leave empty for no encryption" autocomplete="new-password">
+    </label>
+    <div id="warn" class="warn" role="alert">
+      ⚠ No PIN set — your password and answers will be saved <strong>unencrypted</strong>
+      in this browser profile. Anyone with access to this Chrome profile or its disk
+      files could read them.
+    </div>
+    <div id="info" class="info" hidden>
+      🔒 Data will be encrypted with AES-GCM (key derived from the PIN via PBKDF2).
+      A 4-digit PIN only stops casual access — see the README for the limits.
+    </div>
+
+    <div class="row">
+      <button id="save" type="submit">Save</button>
+      <button id="clear" type="button" class="danger">Delete all saved data</button>
+    </div>
+    <p id="msg" class="msg" role="status"></p>
+  </form>
+
+  <script src="shared.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>
