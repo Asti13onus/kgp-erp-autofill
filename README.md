@@ -104,3 +104,7 @@ security answers).
 - Only the top-level page is scanned (not iframes).
 - Matching is word-overlap based: very short or very generic questions may be
   treated as "no confident match" on purpose, and you answer those manually.
+
+## License
+
+MIT — see [LICENSE](LICENSE). The IIT Kharagpur emblem in `icons/` is not covered by this license; it belongs to the institute.
