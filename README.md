@@ -30,6 +30,18 @@ host permission is `*://erp.iitkgp.ac.in/*`, plus `storage`.
 
 The toolbar icon uses the IIT Kharagpur emblem (taken from the institute's public website) purely so the extension is easy to spot. The emblem belongs to the institute and its use here does not imply any endorsement; if you publish or share this project, replace the icons in `icons/`.
 
+## Popup
+
+Click the toolbar icon, type your 4-digit PIN, and it unlocks, fills the login and closes by itself. Once unlocked, the ERP page fills automatically for the rest of the browser session.
+
+<p>
+  <img src="docs/popup-locked.png" alt="Popup while locked: PIN box and Unlock button" width="300">
+  &nbsp;&nbsp;
+  <img src="docs/popup-unlocked.png" alt="Popup while unlocked: Run autofill now and Lock now buttons" width="300">
+</p>
+
+*Locked (left) and unlocked (right). Screenshots use mock data.*
+
 ## Install (unpacked)
 
 1. Open `chrome://extensions`.
