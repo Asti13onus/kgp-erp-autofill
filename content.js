@@ -67,12 +67,23 @@
     return ok;
   }
 
-  /** Leave the field the way a user finishing typing would (some pages react to blur). */
+  /**
+   * Signal "the user finished typing here" the way a real keystroke + tab-out
+   * would (the ERP loads your security question when this happens). Real
+   * focus/blur events don't fire while the page window is unfocused (e.g. right
+   * after clicking the popup), so when that's the case dispatch them directly.
+   */
   function commitBlur(el) {
-    const prev = document.activeElement;
-    el.focus();
-    el.blur();
-    if (prev && prev !== el && prev !== document.body && prev !== el) prev.focus();
+    el.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true }));
+    if (document.hasFocus()) {
+      const prev = document.activeElement;
+      el.focus();
+      el.blur();
+      if (prev && prev !== el && prev !== document.body) prev.focus();
+    } else {
+      el.dispatchEvent(new FocusEvent('blur'));
+      el.dispatchEvent(new FocusEvent('focusout', { bubbles: true }));
+    }
   }
 
   // ------------------------------------------------------------- indicators
@@ -90,6 +101,7 @@
       document.body.appendChild(dot);
       dots.set(input, dot);
     }
+    dot.dataset.state = state;
     dot.style.background = DOT_COLORS[state];
     dot.title = 'KGP ERP Autofill: ' + title;
     positionDot(input, dot);
@@ -104,7 +116,7 @@
 
   function refreshDots() {
     for (const [input, dot] of dots) {
-      if (!input.isConnected || !isVisible(input)) {
+      if (!input.isConnected || !isVisible(input) || (dot.dataset.state === 'locked' && input.value !== '')) {
         dot.remove();
         dots.delete(input);
       } else {
