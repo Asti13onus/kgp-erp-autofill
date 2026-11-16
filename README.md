@@ -15,9 +15,9 @@ fields that appear later are picked up too) and:
 
 | Step | Behaviour |
 | --- | --- |
-| **Roll number + password** | Finds the password input, then the nearest preceding text/number input in the same form, and fills both if they are empty. Skips pages with more than one password field (e.g. change-password forms). |
-| **Security question** | Finds visible text ending in `?` next to an empty input, normalizes it (lowercase, punctuation stripped), and fuzzy-matches it by word overlap against your saved questions. It fills only if the match is confident *and* clearly better than any other saved question. Otherwise it fills nothing and shows a small amber dot beside the field. |
-| **OTP** | Never filled. The OTP field is just focused so you can type it. |
+| **Roll number + password** | Finds the password input (by name/id, e.g. `password`) and the user-id input (`user_id`, or the nearest text input before the password), and fills both if empty. Works when the page uses `type="password"` for every field. Skips forms with several password-like fields (e.g. change-password). |
+| **Security question** | Finds the question either as visible text ending in `?` next to an empty input, or as the label above an input whose name/id/placeholder says "answer" (the real ERP login layout, where the question has no `?`). It normalizes the text (lowercase, punctuation stripped) and fuzzy-matches it by word overlap against your saved questions. It fills only if the match is confident *and* clearly better than any other saved question. Otherwise it fills nothing and shows a small amber dot beside the field. |
+| **OTP** | Never filled. Once the OTP field is editable it is just focused so you can type it. |
 | **Events** | After filling, `input` and `change` events are dispatched so page JavaScript notices the new values. |
 | **Submit** | Never auto-submitted. You review and click submit yourself. |
 
@@ -96,6 +96,7 @@ security answers).
 
 ## Limitations
 
+- Some ERP fields are `readonly` until clicked. The extension focuses them (as you would) so the page's own script unlocks them; if a field stays locked, it is left alone.
 - The ERP's markup isn't something this project controls; if its layout changes,
   detection may need tweaks.
 - Only the top-level page is scanned (not iframes).
